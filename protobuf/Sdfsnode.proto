@@ -1,0 +1,50 @@
+syntax = "proto3";
+option go_package = "github.com/opendedup/sdfs_creator";
+
+message StorageMount {
+    string mountPath=1;
+    string dev=2;
+    int64 total=3;
+    int64 used=4;
+    int64 avail=5;
+    string fsType=6;
+}
+
+message StorageHost {
+    string hostName=1;
+    string userName=2;
+    string password=3;
+    string pubKey=4;
+    string privKey=5;
+    string description=6;
+    string baseUrl=7;
+    string id=9;
+    bool standalone=10;
+    bool connected=11;
+    deploymentType deploymentType=12;
+    bool running=13;
+    bool tls=14;
+    bool mtls=15;
+}
+
+enum deploymentType {
+    GKE =0;
+    LOCAL=1;
+}
+
+message storageLocation {
+    string id=1;
+    string metaData=2;
+    string chunkData=3;
+    string hashDB=4;
+}
+
+message SystemInfo {
+    double totalCPU=1;
+    int32 cores=2;
+    int64 totalMemory=3;
+    int64 freeMemory=4;
+    string version=5;
+    string os=6;
+    string uptime=7;
+}

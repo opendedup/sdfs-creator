@@ -1,0 +1,216 @@
+syntax = "proto3";
+option go_package = "github.com/opendedup/sdfs_creator/api";
+
+import "Sdfsnode.proto";
+
+message VolumeCreateRequest {
+    string sdfscli_password = 1;
+	string aws_bucket_location = 2;
+    string sdfscli_require_auth = 3;
+    string sdfscli_require_mutual_tls = 4;
+    string sdfscli_disable_ssl =5;
+    string sdfscli_listen_port =6;
+    int32 glacier_in_days = 7;
+    int32 azurearchive_in_days =8;
+    bool refresh_blobs = 9;
+    int32 sdfscli_listen_addr = 10;
+    int64 hashtable_rm_threshold = 11;
+    string sdfs_base_path = 12;
+    string base_path = 13;
+    string cloud_url = 14;
+    bool aws_basic_signer = 15;
+    bool aws_disable_dns_bucket = 16;
+    bool compress_metadata = 17;
+    bool no_simple_metadata = 18;
+    string dedup_db_store = 19;
+    string dedup_dbtrash_store = 20;
+    string io_log = 21;
+    string cloud_disable_test = 22;
+    bool io_safe_close= 23;
+    bool io_safe_sync=24;
+    int32 io_write_threads=25;
+    int32 io_chunk_size = 26;
+    int32 io_max_file_write_buffers=27;
+    int32 io_max_open_files=28;
+    string local_cache_size=29;
+    int32 io_meta_file_cache=30;
+    string io_claim_chunks_schedule=31;
+    string permissions_file=32;
+    string permissions_folder=33;
+    string permissions_owner=34;
+    string permissions_group=35;
+    string volume_capacity=36;
+    string volume_name=37;
+    int32 volume_maximum_full_percentage=38;
+    string chunk_store_data_location=39;
+    string chunk_store_hashdb_location=40;
+    string chunkstore_class=41;
+    string chunk_store_gc_schedule=42;
+    string chunk_store_hashdb_class=43;
+    string chunk_store_size=44;
+    hashTypes hash_type=45;
+    bool chunk_store_encrypt=46;
+    string chunk_store_encryption_key=47;
+    string chunk_store_iv=48;
+    string encrypt_config=49;
+    bool aws_enabled=50;
+    bool minio_enabled=51;
+    bool backblaze_enabled=52;
+    string cloud_secret_key=53;
+    string cloud_access_key=54;
+    int32 chunk_store_io_threads=55;
+    string sdfscli_salt=56;
+    string cloud_bucket_name=57;
+    string user_agent_prefix=58;
+    bool chunk_store_compress=59;
+    bool google_enabled=60;
+    string gcs_creds_file=61;
+    bool backup_volume=62;
+    bool azure_enabled=63;
+    string azure_storage_tier=64;
+    string glacier_restore_class=65;
+    bool aws_aim=66;
+    bool simple_s3=67;
+    bool report_dse_size=68;
+    bool report_dse_capacity=69;
+    bool use_perf_mon=70;
+    int32 max_chunk_age=71;
+    string cloud_backlog_size=72;
+    bool enable_batch_gc=73;
+    bool enable_global_syncronization=74;
+    string pubsub_topic=75;
+    string pubsub_authfile=76;
+    string pubsub_project=77;
+    string pubsub_subscription=78;
+}
+
+
+
+enum hashTypes {
+    VARIABLE_SHA256 = 0;
+    VARIABLE_SHA256_160 = 1;
+    VARIABLE_MD5 = 2;
+}
+
+enum volumeTypes {
+    VOL_TYPE_AWS =0;
+    VOL_TYPE_AZURE=1;
+    VOL_TYPE_GS3=2;
+    VOL_TYPE_LOCAL=3;
+    VOL_TYPE_GS=4;
+    VOL_TYPE_B2=5;
+    VOL_TYPT_MINIO=6;
+}
+
+message SDFSVolume {
+    volumeTypes volumeType =1;
+    string volumeName =2;
+    string defaultMountPoint=3;
+    string configPath=4;
+    repeated StorageHost storageHosts=5;
+    string id=6;
+    int32 port=7;
+    bool useSSL=8;
+    bool mountOnStartup=9;
+    bool authEnabled=10;
+    string sdfsPassword=11;
+    string currentMountPoint=14;
+    int64 volSize=15;
+    int64 dseSize=16;
+    int32 chunkLen=17;
+    int64 allocationSize=18;
+    mountStatus mountStatus=19;
+    hashTypes hashType=20;
+    string bucketName=22;
+    int64 cacheSize=23;
+    bool encryptData=24;
+    string encryptionKey=25;
+    string encryptionIV=26;
+    string bucketLocation=27;
+    string hostName=28;
+    bool disableDNSBucket=29;
+    string accessKey=30;
+    string secretKey=31;
+    int32 maxThreads=32;
+    int32 connectionTimeoutMS=33;
+    int32 blockSizeMB=34;
+    string proxyHost=35;
+    int32 proxyPort=36;
+    string proxyUser=37;
+    string proxyPassword=38;
+    string proxyDomain=39;
+    int32 readSpeed=40;
+    int32 writeSpeed=41;
+    int32 archiveInDays=42;
+    bool useAim=43;
+    bool disableCheckAuth=44;
+    bool simpleS3=45;
+    bool usebasicsigner=46;
+    bool usev4signer=47;
+    bool simpleMD=48;
+    bool compressMD=49;
+    bool acceleratedAWS=50;
+    bool forBackup=51;
+    int32 aiInDays=52;
+    string backlogSize=53;
+}
+
+enum mountStatus {
+    mounted=0;
+    mounting=1;
+    unmounted=2;
+}
+
+
+
+message NFSExport {
+    string clientNetwork = 1;
+    string mountOptions = 2;
+    string relativePath =3;
+    string volumeId = 4;
+    bool mountOnStart = 5;
+    bool mounted = 6;
+    string mountedPath = 7;
+    string id = 8;
+}
+
+message ISCSITarget  {
+    string pid = 1;
+    string guid = 2;
+    string backingFile = 3;
+    string listenIP = 4;
+    bool mountOnStart = 5;
+    string id = 6;
+    bool mounted =7;
+    int64 size =8;
+}
+
+message VolumeConfig {
+    VolumeCreateRequest config = 1;
+    string volumeId = 2;
+}
+
+message VolumeEvent {
+    string id=1;
+    string partent=2;
+    string type=3;
+    Levels level=4;
+    string shortMsg=5;
+    string longMsg=6;
+    string target=7;
+    int64 maxCt=8;
+    int64 curCt=9;
+    int64 startTime=10;
+    int64 endTime=11;
+    string host=12;
+    string extendedInfo=13;
+    repeated string children=14;
+}
+
+enum Levels {
+    INFO=0;
+    WARN=1;
+    ERROR=2;
+    RUNNING=3;
+}
+
